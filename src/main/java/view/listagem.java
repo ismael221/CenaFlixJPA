@@ -4,6 +4,11 @@
  */
 package view;
 
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
+import persistencia.listagemDAO;
+import spring.cenaflixjpa.Podcast;
+
 /**
  *
  * @author Usuario
@@ -15,6 +20,9 @@ public class listagem extends javax.swing.JFrame {
      */
     public listagem() {
         initComponents();
+        listagemDAO listagemDao = new listagemDAO();
+        List<Podcast> podcasts = listagemDao.listar();
+        preencheTabela(podcasts);
     }
 
     /**
@@ -34,7 +42,7 @@ public class listagem extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         txtPesquisaProdutor = new javax.swing.JTextField();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        tblPodcasts = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
@@ -61,7 +69,13 @@ public class listagem extends javax.swing.JFrame {
         jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel3.setText("Pesquisar podcast por produtor:");
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        txtPesquisaProdutor.addCaretListener(new javax.swing.event.CaretListener() {
+            public void caretUpdate(javax.swing.event.CaretEvent evt) {
+                txtPesquisaProdutorCaretUpdate(evt);
+            }
+        });
+
+        tblPodcasts.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -69,9 +83,14 @@ public class listagem extends javax.swing.JFrame {
                 "ID", "Produtor", "Nome do Episodio", "Nº Episodio", "Duração", "URL do repo"
             }
         ));
-        jScrollPane2.setViewportView(jTable2);
+        jScrollPane2.setViewportView(tblPodcasts);
 
         jButton1.setText("Cadastrar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -133,6 +152,18 @@ public class listagem extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+       Cadastrar cadastrar = new Cadastrar();
+       cadastrar.setVisible(true);
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void txtPesquisaProdutorCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_txtPesquisaProdutorCaretUpdate
+       listagemDAO listagemDao = new listagemDAO();
+       String produtor = "%" +txtPesquisaProdutor.getText() +"%";
+       List<Podcast> podcasts =  listagemDao.listarPorProdutor(produtor);
+       preencheTabela(podcasts);
+    }//GEN-LAST:event_txtPesquisaProdutorCaretUpdate
+
     /**
      * @param args the command line arguments
      */
@@ -177,7 +208,28 @@ public class listagem extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTable jTable2;
+    private javax.swing.JTable tblPodcasts;
     private javax.swing.JTextField txtPesquisaProdutor;
     // End of variables declaration//GEN-END:variables
+
+    private void preencheTabela(List<Podcast> podcasts) {
+      String colunas[] = { "ID", "Produtor", "Nome do Episodio", "Nº Episodio", "Duração", "URL do repo"};
+      String dados[][] = new String[podcasts.size()][colunas.length];
+      
+      int i=0;
+      for(Podcast pd:podcasts){
+          dados[i] = new String[]{
+              String.valueOf(pd.getId()),
+              pd.getProdutor(),
+              pd.getNomeEpisodio(),
+              String.valueOf(pd.getNumeroEp()),
+              pd.getDuracao(),
+              pd.getUrlRepositorio()
+          };
+          i++;
+      }
+      
+    DefaultTableModel model = new DefaultTableModel(dados, colunas);
+    tblPodcasts.setModel(model);
+    }
 }
