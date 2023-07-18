@@ -4,9 +4,13 @@
  */
 package view;
 
+import javax.swing.JOptionPane;
+import persistencia.loginDAO;
+import spring.cenaflixjpa.Login;
+
 /**
  *
- * @author Usuario
+ * @author ismael221
  */
 public class login extends javax.swing.JFrame {
 
@@ -115,7 +119,27 @@ public class login extends javax.swing.JFrame {
     }//GEN-LAST:event_txtLoginActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+       Login usuario = new Login();
+       usuario.setUsuario(txtLogin.getText());
+       usuario.setSenha(txtSenha.getText());
+       
+       usuario = loginDAO.validarUsuarioInseguro(usuario);
+
+       if(usuario == null){
+           JOptionPane.showMessageDialog(null, "Não foi possivel fazer login");
+           
+       }else{
+           JOptionPane.showMessageDialog(null, "Olá "+usuario.getUsuario() +", sua permissão é de "+ usuario.getTipo()+". Seja bem-vindo");
+           
+           if(usuario.getTipo().equals("USUARIO")){
+               Cadastrar telaCadastro = new Cadastrar();
+               telaCadastro.jButton2.setEnabled(false);
+               telaCadastro.setVisible(true);
+           }else{
+            Cadastrar telaCadastro1 = new Cadastrar();
+            telaCadastro1.setVisible(true);
+           }
+       }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
