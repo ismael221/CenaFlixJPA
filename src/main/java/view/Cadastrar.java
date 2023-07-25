@@ -4,6 +4,7 @@
  */
 package view;
 
+import javax.swing.JOptionPane;
 import persistencia.PodcastDAO;
 import spring.cenaflixjpa.Podcast;
 
@@ -18,6 +19,7 @@ public class Cadastrar extends javax.swing.JFrame {
      */
     public Cadastrar() {
         initComponents();
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     }
 
     /**
@@ -38,8 +40,8 @@ public class Cadastrar extends javax.swing.JFrame {
         txtUrlRepositorio = new javax.swing.JTextField();
         txtNomeEpisodio = new javax.swing.JTextField();
         txtDuracao = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        btnListagem = new javax.swing.JButton();
+        btnCadastrar = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
@@ -56,17 +58,17 @@ public class Cadastrar extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel2.setText("CADASTRAR PODCAST");
 
-        jButton1.setText("VER LISTAGEM");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnListagem.setText("VER LISTAGEM");
+        btnListagem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnListagemActionPerformed(evt);
             }
         });
 
-        jButton2.setText("CADASTRAR");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        btnCadastrar.setText("CADASTRAR");
+        btnCadastrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                btnCadastrarActionPerformed(evt);
             }
         });
 
@@ -116,9 +118,9 @@ public class Cadastrar extends javax.swing.JFrame {
                         .addGap(221, 221, 221))))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGap(49, 49, 49)
-                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnCadastrar, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnListagem, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(49, 49, 49))
         );
         jPanel1Layout.setVerticalGroup(
@@ -150,8 +152,8 @@ public class Cadastrar extends javax.swing.JFrame {
                 .addComponent(txtUrlRepositorio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnListagem, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnCadastrar, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(17, 17, 17))
         );
 
@@ -169,35 +171,53 @@ public class Cadastrar extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        String produtor = txtProdutor.getText() ;
-        String nomeEpisodio = txtNomeEpisodio.getText();
-        int numeroEp = Integer.parseInt(txtNumeroEp.getText());
-        String duracao = txtDuracao.getText();
-        String urlRepositorio = txtUrlRepositorio.getText();
+    private void btnCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrarActionPerformed
+       
         
-        Podcast podcast = new Podcast();
-        
-        podcast.setProdutor(produtor);
-        podcast.setDuracao(duracao);
-        podcast.setNomeEpisodio(nomeEpisodio);
-        podcast.setNumeroEp(numeroEp);
-        podcast.setUrlRepositorio(urlRepositorio);
-        
-        PodcastDAO podcastDAO = new PodcastDAO();
-        podcastDAO.cadastrar(podcast);
-        
-        txtProdutor.setText("");
-        txtNomeEpisodio.setText("");
-        txtNumeroEp.setText("");
-        txtDuracao.setText("");
-        txtUrlRepositorio.setText("");
-    }//GEN-LAST:event_jButton2ActionPerformed
+       
+        if(txtProdutor.getText().isEmpty()){
+            JOptionPane.showMessageDialog(null, "Produtor não pode ficar vazio");
+        }else if(txtNomeEpisodio.getText().isEmpty()){
+            JOptionPane.showMessageDialog(null, "Nome do Episodio não pode ficar vazio");
+        }else if(txtNumeroEp.getText().trim().isEmpty()){
+             JOptionPane.showMessageDialog(null, "Numero do Episodio não pode ficar vazio");
+        }else if(txtDuracao.getText().trim().isEmpty()){
+             JOptionPane.showMessageDialog(null, "Duracao do Podcast não pode ficar vazio");
+        }else if(txtUrlRepositorio.getText().trim().isEmpty()){
+             JOptionPane.showMessageDialog(null, " URl dor repositorio não pode ficar vazio");
+        }else{
+            String produtor = txtProdutor.getText() ;
+            String nomeEpisodio = txtNomeEpisodio.getText();
+            int numeroEp = Integer.parseInt(txtNumeroEp.getText());
+            String duracao = txtDuracao.getText();
+            String urlRepositorio = txtUrlRepositorio.getText();
+            
+            Podcast podcast = new Podcast();
+            
+            podcast.setProdutor(produtor);
+            podcast.setDuracao(duracao);
+            podcast.setNomeEpisodio(nomeEpisodio);
+            podcast.setNumeroEp(numeroEp);
+            podcast.setUrlRepositorio(urlRepositorio);
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+            PodcastDAO podcastDAO = new PodcastDAO();
+            podcastDAO.cadastrar(podcast);
+            
+            txtProdutor.setText("");
+            txtNomeEpisodio.setText("");
+            txtNumeroEp.setText("");
+            txtDuracao.setText("");
+            txtUrlRepositorio.setText("");
+        }
+        
+        
+    }//GEN-LAST:event_btnCadastrarActionPerformed
+
+    private void btnListagemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnListagemActionPerformed
         listagem listagem = new listagem();
         listagem.setVisible(true);
-    }//GEN-LAST:event_jButton1ActionPerformed
+        dispose();
+    }//GEN-LAST:event_btnListagemActionPerformed
 
     /**
      * @param args the command line arguments
@@ -235,8 +255,8 @@ public class Cadastrar extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    protected javax.swing.JButton jButton2;
+    protected javax.swing.JButton btnCadastrar;
+    private javax.swing.JButton btnListagem;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;

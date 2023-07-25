@@ -133,11 +133,13 @@ public class login extends javax.swing.JFrame {
            
            if(usuario.getTipo().equals("USUARIO")){
                Cadastrar telaCadastro = new Cadastrar();
-               telaCadastro.jButton2.setEnabled(false);
+               telaCadastro.btnCadastrar.setEnabled(false);
                telaCadastro.setVisible(true);
+               dispose();
            }else{
             Cadastrar telaCadastro1 = new Cadastrar();
             telaCadastro1.setVisible(true);
+            dispose();
            }
        }
     }//GEN-LAST:event_jButton1ActionPerformed
