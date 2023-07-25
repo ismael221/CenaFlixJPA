@@ -46,4 +46,22 @@ public class listagemDAO {
       
         return podcasts;
     }
+    
+    public void excluir(int id){
+      EntityManager em = JPAUtil.getEntityManager();
+      try{
+          Podcast pd = em.find(Podcast.class, id);
+          if(pd != null){
+              em.getTransaction().begin();
+              em.remove(pd);
+              em.getTransaction().commit();
+          }
+      }catch(Exception e){
+          em.getTransaction().rollback();
+          throw e;
+      }
+      finally{
+          JPAUtil.closeEtityManager();
+      }
+    }
 }

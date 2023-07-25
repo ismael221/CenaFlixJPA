@@ -5,6 +5,7 @@
 package view;
 
 import java.util.List;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import persistencia.listagemDAO;
 import spring.cenaflixjpa.Podcast;
@@ -45,6 +46,7 @@ public class listagem extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         tblPodcasts = new javax.swing.JTable();
         btnCadastrar = new javax.swing.JButton();
+        btnExcluir = new javax.swing.JButton();
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -93,6 +95,13 @@ public class listagem extends javax.swing.JFrame {
             }
         });
 
+        btnExcluir.setText("Excluir");
+        btnExcluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExcluirActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -116,9 +125,10 @@ public class listagem extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane2)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(btnCadastrar, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(btnExcluir, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnCadastrar, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -135,7 +145,9 @@ public class listagem extends javax.swing.JFrame {
                 .addGap(33, 33, 33)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 253, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 7, Short.MAX_VALUE)
-                .addComponent(btnCadastrar)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnCadastrar)
+                    .addComponent(btnExcluir))
                 .addContainerGap())
         );
 
@@ -165,6 +177,29 @@ public class listagem extends javax.swing.JFrame {
        List<Podcast> podcasts =  listagemDao.listarPorProdutor(produtor);
        preencheTabela(podcasts);
     }//GEN-LAST:event_txtPesquisaProdutorCaretUpdate
+
+    private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
+       try{
+          if(tblPodcasts.getSelectedRow() >= 0){ //verifica se há algo selecionado na tabela
+              //obtém o valor da coluna id da linha selecionada
+              String id = (String)tblPodcasts.getValueAt(tblPodcasts.getSelectedRow(), 0);
+              //janela de confirmação
+              int resposta = JOptionPane.showConfirmDialog(this, "Deseja mesmo excluir o registro " + id + "?");
+              if(resposta == 0)//0- yes, 1- no, 2- cancel
+              {   
+                  //realizando a exclusão
+                  listagemDAO listagemDao = new listagemDAO();            
+                  listagemDao.excluir(Integer.parseInt(id));
+                  JOptionPane. showMessageDialog(this, "Registro excluído com sucesso");
+                  //refazendo a pesquisa para atualizar a tabela na tela
+                   List<Podcast> podcasts = listagemDao.listar();
+                   preencheTabela(podcasts);
+              }
+          }
+      }catch(Exception e){
+          JOptionPane.showMessageDialog(this, "Ocorreu uma falha:\n" + e.getMessage());
+      }  
+    }//GEN-LAST:event_btnExcluirActionPerformed
 
     /**
      * @param args the command line arguments
@@ -203,6 +238,7 @@ public class listagem extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCadastrar;
+    private javax.swing.JButton btnExcluir;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
