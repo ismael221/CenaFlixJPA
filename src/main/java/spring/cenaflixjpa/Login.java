@@ -11,7 +11,7 @@ import jakarta.persistence.Id;
 
 /**
  *
- * @author Usuario
+ * @author ismael221
  */
 @Entity
 public class Login {

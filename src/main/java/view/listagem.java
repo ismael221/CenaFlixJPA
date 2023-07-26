@@ -17,9 +17,7 @@ import spring.cenaflixjpa.Podcast;
  */
 public class listagem extends javax.swing.JFrame {
 
-    /**
-     * Creates new form listagem
-     */
+    
     public listagem() {
         initComponents();
         listagemDAO listagemDao = new listagemDAO();

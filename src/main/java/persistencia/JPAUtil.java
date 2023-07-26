@@ -9,8 +9,9 @@ import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 
 /**
- *
- * @author Usuario
+ * Classe responsavel por fazer a conexão e desconexão com o banco de dados
+ * gerenciando a unidade de persistência 
+ * @author ismael221
  */
 public class JPAUtil {
     //constante para centralizar o nome da unidade de persistência

@@ -10,10 +10,12 @@ import java.util.List;
 import spring.cenaflixjpa.Podcast;
 
 /**
- *
- * @author Usuario
+ * Classe responsavel pela conexão do banco de dados realizando a listagem e exclusão
+ * 
+ * @author ismael221
  */
 public class listagemDAO {
+    
     public List<Podcast> listar(){
        EntityManager em = JPAUtil.getEntityManager();
        try{
@@ -24,18 +26,22 @@ public class listagemDAO {
            JPAUtil.closeEtityManager();
        }
     }
-    
-    public List<Podcast> listarPorProdutor(String filtroDescricao){
+    /**
+     * Recebe como parametro uam string contendo o nome do produtor e retorna uma lista com os devidos produtores informados
+     * @param produtor
+     * @return 
+     */
+    public List<Podcast> listarPorProdutor(String produtor){
         List podcasts = null;
         EntityManager em = JPAUtil.getEntityManager();
         try{
              String textoQuery = "SELECT pd FROM Podcast pd";
-             if(!filtroDescricao.isEmpty()) //informou algum valor no parâmetro "filtroDescricao"
+             if(!produtor.isEmpty()) //informou algum valor no parâmetro "filtroDescricao"
               textoQuery = textoQuery + " WHERE pd.produtor LIKE :produtor";
 
-            if(!filtroDescricao.isEmpty()){
+            if(!produtor.isEmpty()){
                 Query consulta = em.createQuery(textoQuery);
-                consulta.setParameter("produtor", filtroDescricao);
+                consulta.setParameter("produtor", produtor);
                 podcasts = consulta.getResultList();
             }
         }finally{
@@ -47,6 +53,10 @@ public class listagemDAO {
         return podcasts;
     }
     
+    /**
+     * Metodo de exclusão de dados que recebe como parametro a id do objeto da classe Lista
+     * @param id 
+     */
     public void excluir(int id){
       EntityManager em = JPAUtil.getEntityManager();
       try{

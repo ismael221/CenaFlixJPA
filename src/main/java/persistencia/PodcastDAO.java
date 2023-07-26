@@ -8,10 +8,15 @@ import jakarta.persistence.EntityManager;
 import spring.cenaflixjpa.Podcast;
 
 /**
- *
- * @author Usuario
+ * Classe responsavel por realizar a conexão com o banco de dados para inserir o objeto da classe Podcast
+ * @author ismael221
  */
 public class PodcastDAO {
+       
+       /**
+        * Metodo que insere o registro no banco de dados recebendo como parametro um objeto da class Podcast
+        * @param podcast 
+        */
        public void cadastrar(Podcast podcast){
           EntityManager em = JPAUtil.getEntityManager();
           try {
