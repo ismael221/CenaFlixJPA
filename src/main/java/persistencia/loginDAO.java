@@ -15,7 +15,7 @@ import spring.cenaflixjpa.Login;
  * @author Usuario
  */
 public class loginDAO {
-    public static Login validarUsuarioInseguro(Login usuario) {
+    public static Login validarUsuario(Login usuario) {
                    
                 //Login usuarioEncontrado = null;
                 EntityManager em = JPAUtil.getEntityManager();

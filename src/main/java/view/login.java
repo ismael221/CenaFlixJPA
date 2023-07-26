@@ -13,7 +13,10 @@ import spring.cenaflixjpa.Login;
  * @author ismael221
  */
 public class login extends javax.swing.JFrame {
-
+    
+    private static String nome;
+    private static String senha;
+    public static String tipo;
     /**
      * Creates new form login
      */
@@ -120,11 +123,15 @@ public class login extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
        Login usuario = new Login();
-       usuario.setUsuario(txtLogin.getText());
-       usuario.setSenha(txtSenha.getText());
        
-       usuario = loginDAO.validarUsuarioInseguro(usuario);
-
+       nome = txtLogin.getText();
+       senha = txtSenha.getText();
+       
+       usuario.setUsuario(nome);
+       usuario.setSenha(senha);
+       
+       usuario = loginDAO.validarUsuario(usuario);
+       tipo = usuario.getTipo();
        if(usuario == null){
            JOptionPane.showMessageDialog(null, "Não foi possivel fazer login");
            

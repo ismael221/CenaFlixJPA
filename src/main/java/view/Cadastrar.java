@@ -20,6 +20,9 @@ public class Cadastrar extends javax.swing.JFrame {
     public Cadastrar() {
         initComponents();
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        if(login.tipo.equals("USUARIO")){
+            btnCadastrar.setEnabled(false);
+        }
     }
 
     /**

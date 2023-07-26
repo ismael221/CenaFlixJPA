@@ -8,6 +8,7 @@ import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import persistencia.listagemDAO;
+import spring.cenaflixjpa.Login;
 import spring.cenaflixjpa.Podcast;
 
 /**
@@ -25,6 +26,10 @@ public class listagem extends javax.swing.JFrame {
         List<Podcast> podcasts = listagemDao.listar();
         preencheTabela(podcasts);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        if(login.tipo.equals("USUARIO") || login.tipo.equals("OPERADOR")){
+            btnExcluir.setEnabled(false);
+        }
+        
     }
 
     /**
